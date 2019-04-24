@@ -2,3 +2,5 @@ body { background-color: black; }
 header { text-align: center; }
 h1 { color: purple; margin-left: -3em; padding: 0;}
 #header-logo { width: 3em; height: 3em; float: left; padding: 0.5em; }
+.st0{fill:#0071BC;}
+.st1{fill:#662D91;}
