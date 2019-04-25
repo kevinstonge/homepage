@@ -5,7 +5,7 @@ export class NavBar extends Component {
     return (
       <div id="nav-container" className="visual-container">
         <nav>
-            <a href="#">Welcome</a>
+            <a href="#">Navigation</a>
         </nav>
       </div>
     )
