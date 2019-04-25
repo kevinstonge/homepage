@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import Logo from '../components/Logo';
-//placeholder function; should be a react functional component I think:
-function navigateHome() { console.log('hi'); }
+
 export class Header extends Component {
   render() {
     return (
         <div>
-            <header className="App-header visual-container" onClick={navigateHome}>
+            <header className="App-header visual-container" onClick={this.props.navFunc}>
                 <div id="header-left" className="header-block">
                     <Logo />
                 </div>
