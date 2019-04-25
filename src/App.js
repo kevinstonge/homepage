@@ -13,12 +13,15 @@ class App extends React.Component {
       currentPage: "/",
     };
   }
+  setPage = (page) => {
+    this.setState({currentPage:page});
+  }
   render () {
     return(
       <div className="App">
         <Header navFunc={navFunc}/>
         <div id="main-grid">
-        <NavBar pages={this.state.pages} navFunc={navFunc}/>
+        <NavBar pages={this.state.pages} setPage={this.setPage}/>
         <Content page={this.state.currentPage}/>
         <Ads />
         </div>

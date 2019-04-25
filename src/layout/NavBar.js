@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+
 export class NavBar extends Component {
   
   render() {
@@ -6,8 +7,7 @@ export class NavBar extends Component {
       <div id="nav-container" className="visual-container">
         <h2>[Navigation]</h2>
         <nav>
-            <button>Speak & Spell Simulator</button>
-            {Object.keys(this.props.pages).map(e=><button key={e} onClick={this.props.navFunc}>{e}</button>)}
+            {Object.keys(this.props.pages).map(e=><button key={e} onClick={this.props.setPage.bind(this,e)}>{e}</button>)}
         </nav>
       </div>
     )
