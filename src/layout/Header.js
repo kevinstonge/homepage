@@ -5,7 +5,7 @@ export class Header extends Component {
   render() {
     return (
         <div>
-            <header className="App-header visual-container" onClick={this.props.navFunc}>
+            <header className="App-header visual-container" onClick={this.props.setPage.bind(this,"home")}>
                 <div id="header-left" className="header-block">
                     <Logo />
                 </div>
