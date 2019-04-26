@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import Logo from '../components/Logo';
+import { Link } from 'react-router-dom';
 
 export class Header extends Component {
   render() {
     return (
         <div>
-            <header className="App-header visual-container" onClick={this.props.setPage.bind(this,"home")}>
+            <Link to="/" onClick={this.props.setPage.bind(this,"home")}>
+            <header className="App-header visual-container">
                 <div id="header-left" className="header-block">
                     <Logo />
                 </div>
@@ -15,6 +17,7 @@ export class Header extends Component {
                 <div id="header-right" className="header-block">
                 </div>
             </header>
+            </Link>
         </div>
     )
   }
