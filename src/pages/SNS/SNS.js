@@ -6,9 +6,8 @@ export default class SNS extends Component {
     this.state = {
       x:0,
     };
-    this.timeoutVar = setTimeout(this.functions.fu);
     this.functions = {
-      fu: (n) => { n++; this.setState({x:n}); console.log(n); setTimeout(this.functions.fu,1000,n); }
+      fu: (n) => { clearTimeout(this.timeoutVar); n++; this.setState({x:n}); console.log(n); this.timeoutVar=setTimeout(this.functions.fu,1000,n); }
     }
   }
   render() {
@@ -21,9 +20,9 @@ export default class SNS extends Component {
     )
   }
   componentDidMount() {
-    setTimeout(this.functions.fu,1000,this.state.x)
+    this.timeoutVar = setTimeout(this.functions.fu,1000,this.state.x)
   }
   componentWillUnmount() {
-    clearTimeout(this.functions.fu);
+    clearTimeout(this.timeoutVar);
   }
 }
