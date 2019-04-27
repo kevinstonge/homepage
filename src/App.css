@@ -9,7 +9,7 @@
 	--c1-8: #DADCF1;
 	--c2-4: #662D91;
 }
-body { background-color: var(--c1-2); width: calc(100vw - 2em); margin: 1em auto; font-family: monospace; }
+body { background-color: var(--c1-2); width: calc(100vw - 2em); margin: 1em auto; font-family: monospace; overflow:hidden;}
 a { color: var(--c1-8); text-decoration: none; }
 .App { display: grid; grid-template-rows: 4em calc(100vh - 7em); grid-row-gap: 1em; }
 
@@ -30,3 +30,26 @@ h1 { color: var(--c1-6); }
 #main-grid { display: grid; grid-template-columns: max-content auto max-content; grid-column-gap: 1em; }
 #nav-container nav button { background-color: var(--c1-6); outline-style: none; border: 1px solid var(--c1-4); display: block; width: 100%; padding: 0.5em 1em; margin: 0.5em auto; color: var(--c1-8); border-radius: 0.5em; text-align: left; box-shadow: 0.25em 0.25em 0.25em black; }
 #nav-container nav button:hover { background-color: var(--c1-7); color: white; border: 1px solid var(--c1-8);}
+/* content */
+#content-container article {
+	height: calc(100vh - 12em);
+	overflow-Y: auto;
+}
+#content-container article::-webkit-scrollbar-track
+{
+	border-radius: 5px;
+	background-color: var(--c1-4);
+}
+
+#content-container article::-webkit-scrollbar
+{
+	width: 5px;
+	border-radius: 5px;
+	background-color: var(--c1-4);
+}
+
+#content-container article::-webkit-scrollbar-thumb
+{
+	border-radius: 5px;
+	background-color: var(--c1-5);
+}

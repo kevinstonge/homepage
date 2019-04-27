@@ -5,7 +5,9 @@ export class Content extends Component {
     return (
       <div id="content-container" className="visual-container">
         <h2>[{this.props.page}]</h2>
-        {this.props.children}
+          <article>
+            {this.props.children}
+          </article>
       </div>
     )
   }
