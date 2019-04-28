@@ -15,7 +15,7 @@ class App extends React.Component {
         "weather": React.lazy(()=>import('./pages/Weather')),
         "speak & spell": React.lazy(()=>import('./pages/SNS/SNS')),
       },
-      currentPage: (decodeURIComponent(window.location.pathname.substring(1)) || "/"),
+      currentPage: (decodeURIComponent(window.location.pathname.substring(1)) || "home"),
     };
   }
   setPage = (page) => {
