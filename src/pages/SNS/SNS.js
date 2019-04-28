@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-
+import SNSsvg from './SNSsvg';
+import './SNS.css';
 export default class SNS extends Component {
   constructor(props) {  
     super(props);
@@ -7,15 +8,18 @@ export default class SNS extends Component {
       x:0,
     };
     this.functions = {
-      fu: (n) => { clearTimeout(this.timeoutVar); n++; this.setState({x:n}); console.log(n); this.timeoutVar=setTimeout(this.functions.fu,1000,n); }
+      fu: (n) => { clearTimeout(this.timeoutVar); n++; this.setState({x:n}); this.timeoutVar=setTimeout(this.functions.fu,1000,n); }
     }
   }
+  SNSButtonPress = (e) => { console.log(e) }
   render() {
 
     return (
       <div>
-      <div id="sns">Speak and Spell!</div>
-      <div id="x">{this.state.x}</div>
+        <div id="x">{this.state.x}</div>
+        <div id="SNScontainer">
+        <SNSsvg SNSButtonPress={this.SNSButtonPress}/>
+        </div>
       </div>
     )
   }
