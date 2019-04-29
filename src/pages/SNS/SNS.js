@@ -15,13 +15,11 @@ export default class SNS extends Component {
     this.audioElement = new Audio(SNSaudio);
     this.timer = undefined;
   }
-  //snsAudio = this.vars.snsAudio[0];
   
   SNSdisplay = (newState) => { this.setState(newState) }
 
   SNSButtonPress = (e) => { 
     this.functions.test1(e,this.vars,this.functions,this.SNSdisplay);
-    // this.snsAudio.play(); 
     this.audioElement.play();
   };
 
