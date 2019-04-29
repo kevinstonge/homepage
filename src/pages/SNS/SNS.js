@@ -1,35 +1,44 @@
 import React, { Component } from 'react'
 import SNSsvg from './SNSsvg';
 import './SNS.css';
-import {test, test2} from './SNSfunc';
+import SNSstate from './SNSstate';
+import SNSvars from './SNSvars';
+import SNSfunc from './SNSfunc';
+import SNSaudio from './sns96-mono.mp3';
+
 export default class SNS extends Component {
   constructor(props) {  
     super(props);
-    this.state = {
-      x:0,
-    };
-    this.functions = {
-      fu: (n) => { clearTimeout(this.timeoutVar); n++; this.setState({x:n}); this.timeoutVar=setTimeout(this.functions.fu,1000,n); }
-    }
+    this.state = SNSstate;
+    this.vars = SNSvars;
+    this.functions = SNSfunc;
+    this.audioElement = new Audio(SNSaudio);
+    this.timer = undefined;
   }
-  SNSButtonPress = (e) => { console.log(e) }
-  render() {
+  //snsAudio = this.vars.snsAudio[0];
+  
+  SNSdisplay = (newState) => { this.setState(newState) }
 
+  SNSButtonPress = (e) => { 
+    this.functions.test1(e,this.vars,this.functions,this.SNSdisplay);
+    // this.snsAudio.play(); 
+    this.audioElement.play();
+  };
+
+  render() {
     return (
       <div>
-        <div id="x">{this.state.x}</div>
         <div id="SNScontainer">
-        <SNSsvg SNSButtonPress={this.SNSButtonPress}/>
-        
+          <SNSsvg SNSButtonPress={this.SNSButtonPress} SNSstate={this.state}/>
         </div>
       </div>
     )
   }
   componentDidMount() {
-    this.timeoutVar = setTimeout(this.functions.fu,1000,this.state.x)
-    {test2(5)}
+    //this.timeoutVar = setTimeout(this.functions.fu,1000,this.state.x)
   }
   componentWillUnmount() {
-    clearTimeout(this.timeoutVar);
+    //clearTimeout(this.timeoutVar);
+    this.audioElement.pause();
   }
 }
