@@ -13,14 +13,19 @@ export default class SNS extends Component {
     this.vars = SNSvars;
     this.functions = SNSfunc;
     this.audioElement = new Audio(SNSaudio);
+    this.playing = false;
     this.timer = undefined;
   }
-  
   SNSdisplay = (newState) => { this.setState(newState) }
+  SNSaudio = (start,duration) => { 
+    this.audioElement.currentTime = start;
+    this.audioElement.play();
+    this.timer = setTimeout(()=>{this.audioElement.pause()},duration);
+  }
 
   SNSButtonPress = (e) => { 
     this.functions.test1(e,this.vars,this.functions,this.SNSdisplay);
-    this.audioElement.play();
+    this.SNSaudio(3,1000);
   };
 
   render() {
@@ -36,7 +41,7 @@ export default class SNS extends Component {
     //this.timeoutVar = setTimeout(this.functions.fu,1000,this.state.x)
   }
   componentWillUnmount() {
-    //clearTimeout(this.timeoutVar);
+    clearTimeout(this.timer);
     this.audioElement.pause();
   }
 }
