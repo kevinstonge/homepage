@@ -1,4 +1,4 @@
 .cls-1, .cls-2 { opacity: 0; }
 .cls-3 {fill:#14ffff; fill-opacity: 0; }
 #SNScontainer svg { max-height: calc(100vh - 14em);; max-width: 70vw; }
-#highlightOn { fill-opacity: 0; stroke: white; stroke-width: 10; }
+#highlightOn { fill-opacity: 0; stroke: white; stroke-width: 10; opacity: 1; }

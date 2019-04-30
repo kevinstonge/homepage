@@ -1,5 +1,9 @@
 const SNSfunc = {
     //cleanup later: any time SNSvars needs to be passed to a subsequent function, you can't use { destructuring }, but if you are only reading values either use destructuring or assign those values to scoped variables
+    resetVariables(SNSvars) {
+      SNSvars.spellProgress = 0; SNSvars.correctWords = 0; SNSvars.displayedText = ""; SNSvars.level = "a"; SNSvars.spellingWords = []; SNSvars.audioBuffer = []; SNSvars.spellAttempts = 0; SNSvars.wait = false; SNSvars.mysteryWord = ""; SNSvars.mysteryWordGuesses = 0; SNSvars.mysteryWordShard = ""; SNSvars.audioArray.length = 0; SNSvars.textArray.length = 0;
+      return SNSvars;
+    },
     randomInt(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     },
@@ -11,14 +15,15 @@ const SNSfunc = {
         a[i]=a[j];
         a[j]=t;
       }
+      return a;
     },
     highlightOn(SNSstate,SNSdisplay) {
-      SNSstate[0]={opacity: 1};
+      SNSstate[0]={display: "unset"};
       SNSdisplay(SNSstate);
       setTimeout(this.highlightOff,500,SNSstate,SNSdisplay);
     },
     highlightOff(SNSstate,SNSdisplay) {
-      SNSstate[0]={opacity: 0};
+      SNSstate[0]={display: "none"};
       SNSdisplay(SNSstate);
     },
     clearDisplay(SNSdisplay) {
@@ -31,7 +36,7 @@ const SNSfunc = {
       }
       SNSdisplay(newState);
     },
-    keyDown(e,SNSvars,SNSdisplay) {
+    keyDown(e,SNSvars,SNSstate,SNSdisplay,SNSaudio) {
       if (SNSvars["wait"] === true) { return; }
       let key = e.which || e.keyCode || 0;
       let keyString = String.fromCharCode(key).toLowerCase();
@@ -39,7 +44,7 @@ const SNSfunc = {
       if (key === 8) { this.buttonPress(39); }
       if (key === 222) { this.buttonPress(37); }
       //13-enter, 8-backspace, 17-ctrl
-      if (/^[a-z]+$/.test(keyString) && 65 <= key && key <= 90) { this.buttonPress(keyString,SNSvars,SNSdisplay); }
+      if (/^[a-z]+$/.test(keyString) && 65 <= key && key <= 90) { this.buttonPress(keyString,SNSvars,SNSstate,SNSdisplay,SNSaudio); }
     },
     pushOutput(outputText,{outputCodes},SNSdisplay) {
         this.clearDisplay(SNSdisplay);
@@ -56,26 +61,24 @@ const SNSfunc = {
         SNSdisplay(newState);
     },
     syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio) {
+      console.log('hit sO');
       SNSvars.wait = true;
       if (SNSvars.audioArray[0] === "'") { SNSvars.audioArray[0] = "beep"; }
-        if (SNSvars.audioArray.length > 0 & SNSvars.isPlaying[0] === false) {
+      if (SNSvars.audioArray.length > 0 & SNSvars.isPlaying[0] === false) {
         this.pushOutput(SNSvars.textArray[0],SNSvars,SNSdisplay);
         const startTime = SNSvars.soundIndex[SNSvars.soundIndex.indexOf(SNSvars.audioArray[0])+1];
         const duration = SNSvars.soundIndex[SNSvars.soundIndex.indexOf(SNSvars.audioArray[0])+2];
-        //should use function in SNS.js to play audio!!
-        SNSvars.snsAudio[0].currentTime = startTime;
-        SNSvars.snsAudio[0].play();
+        SNSaudio(startTime,duration);
         SNSvars.isPlaying[0] = true;
+        //TIMEOUT is breaking "this."!!
         setTimeout(this.syncNext,duration,SNSvars,SNSstate,SNSdisplay,SNSaudio);
       };
     },
     syncNext(SNSvars,SNSstate,SNSdisplay,SNSaudio) {
       if (SNSvars.isPlaying[0]) { 
-        SNSvars.snsAudio[0].pause();
         SNSvars.isPlaying[0]=false;
-        SNSvars.snsAudio.shift();
         SNSvars.textArray.shift();
-        if (SNSvars.snsAudio.length > 0) { this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio); }
+        if (SNSvars.textArray.length > 0) { this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio); }
         else { SNSvars.wait = false; }
       }
     },
@@ -163,10 +166,10 @@ const SNSfunc = {
     },
 
     buttonPress(button,SNSvars,SNSstate,SNSdisplay,SNSaudio) {
-        console.log(button);
-      if (button === 1) { this.clearDisplay(); this.resetVariables(); SNSvars.mode = "off"; };
+      button = parseInt(button);
+      if (button === 1) { this.clearDisplay(SNSdisplay); SNSvars = this.resetVariables(SNSvars); SNSvars.mode = "off"; };
       if (button === 10) {
-        this.resetVariables();
+        SNSvars = this.resetVariables(SNSvars);
         if (SNSvars.mode === "off") {
           SNSvars.audioArray.push("activity1");
         }
@@ -182,10 +185,10 @@ const SNSfunc = {
       if (button === 37) { button = "'"; };
       if (SNSvars.mode === "off" & button !== 10 && button !== 1) { this.highlightOn(SNSstate,SNSdisplay); };
       if (SNSvars.mode.slice(0,8) === "on-spell" & (/^[a-d]+$/.test(button))) { SNSvars.audioArray.push(button); SNSvars.textArray.push("spell  " + button); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio); SNSvars.mode = "on-spell" + button; };
-      if (SNSvars.mode !== "off" & button === 9) { SNSvars.audioArray.push("activity1"); SNSvars.textArray.push("say it a"); this.syncOutput(); SNSvars.mode = "on-sayita"; };
-      if (SNSvars.mode.slice(0,8) === "on-sayit" & (/^[a-d]+$/.test(button))) { SNSvars.audioArray.push(button); SNSvars.textArray.push("say it " + button); this.syncOutput(); SNSvars.mode = "on-sayit" + button; };
+      if (SNSvars.mode !== "off" & button === 9) { SNSvars.audioArray.push("activity1"); SNSvars.textArray.push("say it a"); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio); SNSvars.mode = "on-sayita"; };
+      if (SNSvars.mode.slice(0,8) === "on-sayit" & (/^[a-d]+$/.test(button))) { SNSvars.audioArray.push(button); SNSvars.textArray.push("say it " + button); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio); SNSvars.mode = "on-sayit" + button; };
       if (SNSvars.mode.slice(0,2) === "on" & (/^[e-z]+$/.test(button) | button === "'")) {
-        SNSvars.audioArray.push(button); SNSvars.textArray.push(SNSvars.displayedText); this.syncOutput();
+        SNSvars.audioArray.push(button); SNSvars.textArray.push(SNSvars.displayedText); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio);
       };
       if (button === 2 & (SNSvars.mode.slice(3,8) === "spell" | SNSvars.mode.slice(3,8) === "sayit")) {
         SNSvars.level = SNSvars.mode.slice(8,9);
@@ -201,31 +204,31 @@ const SNSfunc = {
             else { SNSvars.word = SNSvars.spellingWords[i]; }
             SNSvars.audioArray.push("sayit", SNSvars.word, "silence");
             SNSvars.textArray.push(SNSvars.word, SNSvars.word, SNSvars.word);
-            this.syncOutput();
+            this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio);
           };
         }
         SNSvars.mode = "go-spell" + SNSvars.level;
-        this.spellNext();
+        this.spellNext(SNSvars,SNSstate,SNSdisplay,SNSaudio);
       };
       if (SNSvars.mode !== "off" & button === 8) {
         SNSvars.mode = "letter";
         let letter =  String.fromCharCode(97 + Math.floor(Math.random() * 26));
         SNSvars.audioArray.push("activity" + this.randomInt(1,4), letter);
         SNSvars.textArray.push(letter + "_", letter + "_");
-        this.syncOutput();
+        this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio);
       }
       if (SNSvars.mode !== "off" & button === 7) {
         SNSvars.mode = "code";
         SNSvars.textArray.push("_");
         SNSvars.audioArray.push("activity" + this.randomInt(1,4));
-        this.syncOutput();
+        this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio);
       };
       if ((/^[a-z]+$/.test(button) | button === "'") & (SNSvars.mode.slice(0,8) === "go-spell" | SNSvars.mode.slice(0,4) === "code" | SNSvars.mode.slice(0,6) === "letter")) {
         let truncatedText = SNSvars.displayedText.replace(/[_]/g,'');
         let newText = truncatedText + button;
-        if (newText.length < 8) { SNSvars.textArray.push(newText + "_"); SNSvars.audioArray.push(button); this.syncOutput(); }
-        else if (newText.length === 8 ) { SNSvars.textArray.push(newText); SNSvars.audioArray.push(button); this.syncOutput(); }
-        else { SNSvars.textArray.push(newText.slice(0,8)); SNSvars.audioArray.push("beep"); this.syncOutput(); };
+        if (newText.length < 8) { SNSvars.textArray.push(newText + "_"); SNSvars.audioArray.push(button); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio); }
+        else if (newText.length === 8 ) { SNSvars.textArray.push(newText); SNSvars.audioArray.push(button); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio); }
+        else { SNSvars.textArray.push(newText.slice(0,8)); SNSvars.audioArray.push("beep"); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio); };
       };
       if (button === 39 & (SNSvars.mode.slice(0,8) === "go-spell" | SNSvars.mode.slice(0,4) === "code" | SNSvars.mode.slice(0,6) === "letter")) { this.pushOutput("_"); };
       if (button === 40 & (SNSvars.mode.slice(0,4) === "code" | SNSvars.mode.slice(0,6) === "letter")) {
@@ -236,20 +239,20 @@ const SNSfunc = {
         };
         SNSvars.audioArray.push("activity" + this.randomInt(1,4));
         SNSvars.textArray.push(decode + "_");
-        this.syncOutput();
+        this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio);
       };
       if (SNSvars.mode.slice(0,8) === "go-spell" & button === 40) {
         SNSvars.spellAttempts += 1;
-        this.spellNext();
+        this.spellNext(SNSvars,SNSstate,SNSdisplay,SNSaudio);
       };
       if (SNSvars.mode.slice(0,8) === "go-spell" & button === 3) {
         SNSvars.spellProgress = 0;
         SNSvars.spellAttempts = 0;
         SNSvars.correctWords = 0;
-        this.spellNext();
+        this.spellNext(SNSvars,SNSstate,SNSdisplay,SNSaudio);
       }
       if (SNSvars.mode.slice(0,8) === "go-spell" & button === 4) {
-        SNSvars.audioArray.push(SNSvars.spellingWords[SNSvars.spellProgress]); SNSvars.textArray.push(SNSvars.displayedText); this.syncOutput();
+        SNSvars.audioArray.push(SNSvars.spellingWords[SNSvars.spellProgress]); SNSvars.textArray.push(SNSvars.displayedText); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio);
       }
       if (SNSvars.mode !== "off" & button === 6) {
         let mysteryWord = SNSvars.mysteryWords[this.randomInt(0,SNSvars.mysteryWords.length-1)];
@@ -258,7 +261,7 @@ const SNSfunc = {
         SNSvars.mode = "mysteryWord";
         let blankSpaces = "";
         for (let i=0;i<mysteryWord.length;i++) { blankSpaces = blankSpaces + "_"; };
-        SNSvars.audioArray.push("activity" + this.randomInt(1,4)); SNSvars.textArray.push(blankSpaces); this.syncOutput();
+        SNSvars.audioArray.push("activity" + this.randomInt(1,4)); SNSvars.textArray.push(blankSpaces); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio);
       };
       //mystery word game: six guesses allowed, clue counts for two guesses
       if (SNSvars.mode === "mysteryWord" & (/^[a-z]+$/.test(button) | button === "'" | button === 5)) {
@@ -279,13 +282,12 @@ const SNSfunc = {
           }
         };
         SNSvars.mysteryWordShard = SNSvars.mysteryWordShard.replace(new RegExp(clueLetter, 'g'),"");
-        SNSvars.audioArray.push(clueLetter); SNSvars.textArray.push(SNSvars.displayedText); this.syncOutput();
+        SNSvars.audioArray.push(clueLetter); SNSvars.textArray.push(SNSvars.displayedText); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio);
     //check for win
-        if (SNSvars.mysteryWordGuesses <= 6 & mysteryDisplay !== SNSvars.mysteryWord & SNSvars.mysteryWord.indexOf(clueLetter) > -1) { SNSvars.audioArray.push("activity" + this.randomInt(1,4)); SNSvars.textArray.push(mysteryDisplay); this.syncOutput(); }
-        else if (SNSvars.mysteryWordGuesses > 6 & mysteryDisplay !== SNSvars.mysteryWord) { SNSvars.audioArray.push("iwin"); SNSvars.textArray.push(SNSvars.mysteryWord); this.syncOutput(); }
-        else if (SNSvars.mysteryWordGuesses <= 6 & mysteryDisplay === SNSvars.mysteryWord) { SNSvars.audioArray.push("youwin"); SNSvars.textArray.push(SNSvars.mysteryWord); this.syncOutput(); };
+        if (SNSvars.mysteryWordGuesses <= 6 & mysteryDisplay !== SNSvars.mysteryWord & SNSvars.mysteryWord.indexOf(clueLetter) > -1) { SNSvars.audioArray.push("activity" + this.randomInt(1,4)); SNSvars.textArray.push(mysteryDisplay); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio); }
+        else if (SNSvars.mysteryWordGuesses > 6 & mysteryDisplay !== SNSvars.mysteryWord) { SNSvars.audioArray.push("iwin"); SNSvars.textArray.push(SNSvars.mysteryWord); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio); }
+        else if (SNSvars.mysteryWordGuesses <= 6 & mysteryDisplay === SNSvars.mysteryWord) { SNSvars.audioArray.push("youwin"); SNSvars.textArray.push(SNSvars.mysteryWord); this.syncOutput(SNSvars,SNSstate,SNSdisplay,SNSaudio); };
       };
     }
-
 } 
 export default SNSfunc;

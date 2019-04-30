@@ -27,8 +27,7 @@ export default class SNS extends Component {
     // cleanup: it might look a bit cleaner to append these functions and pass them as one arg:
     // this.functions.SNSdisplay = this.SNSdisplay;
     // this.functions.SNSaudio = this.SNSaudio;
-    this.functions.buttonPress(e.id,this.variables,this.SNSdisplay);
-    this.functions.highlightOn(this.state,this.SNSdisplay);
+    this.functions.buttonPress(e,this.vars,this.state,this.SNSdisplay,this.SNSaudio);
     //this.SNSaudio(3,1000);
   };
 
@@ -42,7 +41,7 @@ export default class SNS extends Component {
     )
   }
   componentDidMount() {
-    window.addEventListener("keydown",(e) => { e.preventDefault(); this.functions.keyDown(e,this.vars,this.functions,this.state) });
+    window.addEventListener("keydown",(e) => { e.preventDefault(); this.functions.keyDown(e,this.vars,this.state,this.SNSdisplay,this.SNSaudio) });
     this.functions.clearDisplay(this.SNSdisplay);
 
     //this.functions.pushOutput("asdf",this.vars,this.SNSdisplay)
