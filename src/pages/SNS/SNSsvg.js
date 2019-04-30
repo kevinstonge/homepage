@@ -53,7 +53,7 @@ export default class SNSsvg extends Component {
                         <rect id="38" data-name="38" className="cls-1" onClick={this.handler} x="1000.19" y="1505.52" width="94.75" height="82.02"/>
                         <rect id="39" data-name="39" className="cls-1" onClick={this.handler} x="1120.99" y="1504.7" width="94.75" height="82.02"/>
                         <rect id="40" data-name="40" className="cls-1" onClick={this.handler} x="1243.44" y="1505.52" width="94.75" height="82.02"/>
-                        <ellipse id="highlightOn" className="cls-2" cx="1292.47" cy="1223.47" rx="65.76" ry="63.64"/>
+                        <ellipse id="highlightOn" className="cls-2" style={lcd[0]} cx="1292.47" cy="1223.47" rx="65.76" ry="63.64"/>
                     </g>
                     <g id="lcd">
                         <path id="1-1" data-name="1-1" className="cls-3" style={lcd[1][1]} d="M678.56,643.9c1.94-.91,2.55,1.52,4,4.07,1,1.81-.66,4.55-.62,6.84.07,4,1.23,7.84,1.48,11.79a37.83,37.83,0,0,1,0,3.84c-.07,1.54.33,2.85-.39,4.62a5.16,5.16,0,0,1-2.85,2.45,2.9,2.9,0,0,1-2.26.19,2.24,2.24,0,0,1-1.48-2c.85-10.77.65-20.38,1.48-29.68.07-.83,0-1.8.65-2.12Z"/>

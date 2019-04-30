@@ -3,6 +3,7 @@ const SNSvar= {
     correctWords:0,
     displayedText:"",
     level:"a",
+    word:"",
     mode:"off",
     spellingWords:[],
     audioBuffer:[],

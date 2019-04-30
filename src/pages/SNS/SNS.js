@@ -15,17 +15,21 @@ export default class SNS extends Component {
     this.audioElement = new Audio(SNSaudio);
     this.playing = false;
     this.timer = undefined;
-  }
-  SNSdisplay = (newState) => { this.setState(newState) }
+  };
+  SNSdisplay = (newState) => { this.setState(newState) };
   SNSaudio = (start,duration) => { 
     this.audioElement.currentTime = start;
     this.audioElement.play();
     this.timer = setTimeout(()=>{this.audioElement.pause()},duration);
-  }
-
+  };
+  
   SNSButtonPress = (e) => { 
-    this.functions.test1(e,this.vars,this.functions,this.SNSdisplay);
-    this.SNSaudio(3,1000);
+    // cleanup: it might look a bit cleaner to append these functions and pass them as one arg:
+    // this.functions.SNSdisplay = this.SNSdisplay;
+    // this.functions.SNSaudio = this.SNSaudio;
+    this.functions.buttonPress(e.id,this.variables,this.SNSdisplay);
+    this.functions.highlightOn(this.state,this.SNSdisplay);
+    //this.SNSaudio(3,1000);
   };
 
   render() {
@@ -38,7 +42,12 @@ export default class SNS extends Component {
     )
   }
   componentDidMount() {
+    window.addEventListener("keydown",(e) => { e.preventDefault(); this.functions.keyDown(e,this.vars,this.functions,this.state) });
+    this.functions.clearDisplay(this.SNSdisplay);
+
+    //this.functions.pushOutput("asdf",this.vars,this.SNSdisplay)
     //this.timeoutVar = setTimeout(this.functions.fu,1000,this.state.x)
+
   }
   componentWillUnmount() {
     clearTimeout(this.timer);
