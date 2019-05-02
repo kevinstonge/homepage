@@ -133,7 +133,6 @@ const SNSfunc = {
         }
       }
     },
-
     buttonPress(button,SNSvars,SNSstate,SNSfunctions) {
       button = parseInt(button);
       if (button === 1) { this.clearDisplay(SNSfunctions); SNSvars = this.resetVariables(SNSvars); SNSvars.mode = "off"; };

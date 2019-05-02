@@ -10,11 +10,13 @@ export default class SNS extends Component {
     super(props);
     this.state = SNSstate;
     this.vars = SNSvars;
-    this.functions = SNSfunc;
     this.audioElement = new Audio(SNSaudio);
-    this.playing = false;
     this.timer1 = undefined;
     this.timer2 = undefined;
+    this.functions = SNSfunc;
+    //easier to merge root functions into the constructor
+    //this.functions.test = () => { console.log('hi') };
+
   };
   SNSdisplay = (newState) => { this.setState(newState); return this.state; };
   SNSaudio = (start,duration) => { 
@@ -24,16 +26,14 @@ export default class SNS extends Component {
   };
 
   syncOutput = (SNSvars,SNSstate,SNSfunctions) => {
-    console.log("hit");
-    //'beep' line could be removed if you renamed the sound in the sound array to '
-    if (SNSvars.audioArray[0] === "'") { SNSvars.audioArray[0] = "beep"; };
     if (SNSvars.audioArray.length > 0) { 
       SNSvars.wait = true;
       this.functions.pushOutput(SNSvars.textArray[0],SNSvars,SNSfunctions);
       const startTime = SNSvars.soundIndex[SNSvars.soundIndex.indexOf(SNSvars.audioArray[0])+1];
       const duration = SNSvars.soundIndex[SNSvars.soundIndex.indexOf(SNSvars.audioArray[0])+2];
       this.SNSaudio(startTime,duration);
-      this.timer2 = setTimeout(this.syncOutput,duration,SNSvars,SNSstate,SNSfunctions);
+      this.timer2 = setTimeout(function() { SNSfunctions.syncOutput(SNSvars,SNSstate,SNSfunctions) },2000);
+      console.log(duration);
       SNSvars.textArray.shift();
       SNSvars.audioArray.shift();
     }
@@ -46,8 +46,7 @@ export default class SNS extends Component {
     this.functions.SNSaudio = this.SNSaudio;
     this.functions.syncOutput = this.syncOutput;
     this.functions.buttonPress(e,this.vars,this.state,this.functions); 
-    //remember to update buttonPress params in SNSfunc.js
-    //remember to make buttonPress return [SNSvars,SNSstate] so that they are ready for the next button press.
+    //consider making buttonPress return [SNSvars,SNSstate] so that they can be updated each time from here.
   };
   render() {
     return (
