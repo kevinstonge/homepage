@@ -11,6 +11,7 @@ const SNSvar= {
     audioArray:[],
     textArray:[],
     wait:false,
+    waitButtons:[1,10],
     mysteryWord:"",
     mysteryWordGuesses:0,
     mysteryWordShard:"",

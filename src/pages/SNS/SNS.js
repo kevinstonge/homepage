@@ -12,18 +12,9 @@ export default class SNS extends Component {
     this.vars = SNSvars;
     this.audioElement = new Audio(SNSaudio);
     this.timer1 = undefined;
-    this.timer2 = undefined;
     this.functions = SNSfunc;
-    //easier to merge root functions into the constructor
-    //this.functions.test = () => { console.log('hi') };
-
   };
   SNSdisplay = (newState) => { this.setState(newState); return this.state; };
-  SNSaudio = (start,duration) => { 
-    this.audioElement.currentTime = start;
-    this.audioElement.play();
-    this.timer1 = setTimeout(()=>{this.audioElement.pause()},duration);
-  };
 
   syncOutput = (SNSvars,SNSstate,SNSfunctions) => {
     if (SNSvars.audioArray.length > 0) { 
@@ -31,20 +22,19 @@ export default class SNS extends Component {
       this.functions.pushOutput(SNSvars.textArray[0],SNSvars,SNSfunctions);
       const startTime = SNSvars.soundIndex[SNSvars.soundIndex.indexOf(SNSvars.audioArray[0])+1];
       const duration = SNSvars.soundIndex[SNSvars.soundIndex.indexOf(SNSvars.audioArray[0])+2];
-      this.SNSaudio(startTime,duration);
-      this.timer2 = setTimeout(function() { 
+      this.audioElement.currentTime = startTime;
+      this.audioElement.play();
+      this.timer1 = setTimeout(function() { 
         SNSfunctions.syncOutput(SNSvars,SNSstate,SNSfunctions);
       },duration+5);
       SNSvars.textArray.shift();
       SNSvars.audioArray.shift();
     }
-    else { SNSvars.wait = false; };
+    else { SNSvars.wait = false; this.audioElement.pause() };
   };
 
   SNSButtonPress = (e) => { 
-    if (this.vars.wait) { return; }
     this.functions.SNSdisplay = this.SNSdisplay;
-    this.functions.SNSaudio = this.SNSaudio;
     this.functions.syncOutput = this.syncOutput;
     this.functions.buttonPress(e,this.vars,this.state,this.functions); 
   };
@@ -58,7 +48,6 @@ export default class SNS extends Component {
     )
   }
   componentDidMount() {
-    
     this.vars = this.functions.resetVariables(this.vars);
     window.addEventListener("keydown",(e) => { 
       e.preventDefault(); 
@@ -71,7 +60,7 @@ export default class SNS extends Component {
       let keyString = String.fromCharCode(button).toLowerCase();
       if (/^[a-z]+$/.test(keyString) && 65 <= button && button <= 90) { 
         button = keyString;
-      }
+      } 
       if (button !== "") { this.SNSButtonPress(button); }
       else { return };
     });
@@ -79,6 +68,5 @@ export default class SNS extends Component {
   componentWillUnmount() {
     this.audioElement.pause();
     clearTimeout(this.timer1);
-    clearTimeout(this.timer2);
   }
 }
