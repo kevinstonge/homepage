@@ -31,8 +31,6 @@ export default class SNS extends Component {
       this.functions.pushOutput(SNSvars.textArray[0],SNSvars,SNSfunctions);
       const startTime = SNSvars.soundIndex[SNSvars.soundIndex.indexOf(SNSvars.audioArray[0])+1];
       const duration = SNSvars.soundIndex[SNSvars.soundIndex.indexOf(SNSvars.audioArray[0])+2];
-      console.log(SNSvars.audioArray[0]);
-      console.log(duration);
       this.SNSaudio(startTime,duration);
       this.timer2 = setTimeout(function() { 
         SNSfunctions.syncOutput(SNSvars,SNSstate,SNSfunctions);
@@ -49,7 +47,6 @@ export default class SNS extends Component {
     this.functions.SNSaudio = this.SNSaudio;
     this.functions.syncOutput = this.syncOutput;
     this.functions.buttonPress(e,this.vars,this.state,this.functions); 
-    //make buttonPress return [SNSvars,SNSstate] so that they can be updated each time from here.
   };
   render() {
     return (
@@ -61,6 +58,7 @@ export default class SNS extends Component {
     )
   }
   componentDidMount() {
+    
     this.vars = this.functions.resetVariables(this.vars);
     window.addEventListener("keydown",(e) => { 
       e.preventDefault(); 
