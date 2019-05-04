@@ -24,6 +24,7 @@ export default class SNS extends Component {
       const duration = SNSvars.soundIndex[SNSvars.soundIndex.indexOf(SNSvars.audioArray[0])+2];
       this.audioElement.currentTime = startTime;
       this.audioElement.play();
+      //setTimeout has some precision problems; look into alternatives
       this.timer1 = setTimeout(function() { 
         SNSfunctions.syncOutput(SNSvars,SNSstate,SNSfunctions);
       },duration+5);
