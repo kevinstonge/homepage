@@ -11,7 +11,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       pages: {
-        "home": React.lazy(()=>import('./pages/Home')),
+        "home": React.lazy(() => import('./pages/Home')),
+        "loading animation": React.lazy(()=>import('./pages/LoadingAnimation/LoadingAnimation')),
         "weather": React.lazy(()=>import('./pages/Weather')),
         "speak & spell": React.lazy(()=>import('./pages/SNS/SNS')),
       },
@@ -29,7 +30,7 @@ class App extends React.Component {
         <div id="main-grid">
         <NavBar pages={this.state.pages} setPage={this.setPage}/>
         <Content page={this.state.currentPage}>
-        <Suspense fallback={<div>loading...</div>}>
+        <Suspense fallback={<p> ... loading ... </p>}>
           <Route exact path="/" component={this.state.pages["home"]} />
           <Route exact path={"/"+this.state.currentPage} component={this.state.pages[this.state.currentPage]} />
           </Suspense>
