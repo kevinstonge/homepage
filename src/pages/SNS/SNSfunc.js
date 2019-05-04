@@ -66,7 +66,6 @@ const SNSfunc = {
         if (SNSvars.spellProgress === 0 && SNSvars.spellAttempts === 0) {
           SNSvars.audioArray.push("spell", word); SNSvars.textArray.push("_","_");
           if (homophone) { SNSvars.audioArray.push("as_in", word, rawWord); SNSvars.textArray.push("_","_","_"); }
-          //SNSfunctions.syncOutput(SNSvars,SNSstate,SNSfunctions);
         }
         let next=false;
         //correct on first try
@@ -137,7 +136,6 @@ const SNSfunc = {
       }
     },
     buttonPress(button,SNSvars,SNSstate,SNSfunctions) {
-      //fix: repeat button on homophones repeats wrong word (-x)
       if (!/^[a-z]+$/.test(button)) { button = parseInt(button); }
       if (SNSvars.wait === true && !SNSvars.waitButtons.includes(button)) { return; };
       if (button === 1) {  //off
@@ -245,8 +243,11 @@ const SNSfunc = {
         SNSvars.spellAttempts = 0;
         SNSvars.correctWords = 0;
       }
-      if (SNSvars.mode.slice(0,8) === "go-spell" && button === 4) {
-        SNSvars.audioArray.push(SNSvars.spellingWords[SNSvars.spellProgress]); SNSvars.textArray.push(SNSvars.displayedText); 
+      if (SNSvars.mode.slice(0, 8) === "go-spell" && button === 4) { //repeat button
+        let word = SNSvars.spellingWords[SNSvars.spellProgress];
+        word = (word.match("-x") ? word.substr(0,word.length - 2) : word);
+        SNSvars.audioArray.push(word);
+        SNSvars.textArray.push(SNSvars.displayedText); 
       }
       if (SNSvars.mode !== "off" && button === 6) {
         SNSvars.mysteryWord = SNSvars.mysteryWords[SNSfunctions.randomInt(0,SNSvars.mysteryWords.length-1)];

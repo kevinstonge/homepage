@@ -50,13 +50,13 @@ export default class SNS extends Component {
   }
   componentDidMount() {
     this.vars = this.functions.resetVariables(this.vars);
-    window.addEventListener("keydown",(e) => { 
-      e.preventDefault(); 
+    window.addEventListener("keydown", (e) => { 
       let button = "";
       if (this.vars["wait"] === true) { return; }
-      button = e.which || e.keyCode || 0;
-      if (button === 13) { button = 40; } //enter
-      if (button === 8) { button = 39; } //backspace
+      button = e.which || 0;
+      if (button === 13) { button = 40; e.preventDefault(); } // enter
+
+      if (button === 8) { button = 39;  e.preventDefault(); } //backspace
       if (button === 222) { button = 37; } //'
       let keyString = String.fromCharCode(button).toLowerCase();
       if (/^[a-z]+$/.test(keyString) && 65 <= button && button <= 90) { 
