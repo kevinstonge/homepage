@@ -8,14 +8,13 @@ export class LoadingAnimation extends Component {
     this.state = {
       userAdjustableParameters: {  // "name": [min,max,current]
         "canvas width":[60,300,200],
-        "number of circles": [1,20,7],
+        "number of circles": [1,20,3],
         "track radius":[0,40,20],
         "circle radius":[1,10,2],
         "hue":[0,255,0],
         "saturation":[0,255,0],
         "luminosity":[0,255,255],
       },
-      circles: [],
       speedTheta: 0,
       radiusTheta:Math.PI/3,
       colorTheta:Math.PI,
