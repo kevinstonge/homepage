@@ -61,6 +61,7 @@ h1 { color: var(--c1-6); }
 
 /* change to max-width */
 @media only screen and (max-width: 600px) {
+	#header-middle { font-size: 2vw; }
 	#nav-container { display: flex; flex-direction: row; width: unset; justify-content: center; padding: 0.5em; }
 	#nav-container h2 { display: none; }
 	#nav-container nav { display: flex; flex-direction: row; }
