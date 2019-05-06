@@ -1,4 +1,7 @@
 #loadingAnimationControllers { text-align: center; }
-.controllerContainer { width: fit-content; display: inline-block; text-align: center; padding: 0 1em; border: 1px outset gray; margin: 1em; }
-.controllerContainer p { border-bottom: 1px dotted grey; margin: 0 0 1em 0;}
+.controllerContainer { width: fit-content; display: inline-block; text-align: center; padding: 0; border: 1px solid var(--c1-2); margin: 1em; border-radius: 0.5em; box-shadow: 0.5em 0.5em 0.5em var(--c1-2);}
+.controllerContainer:hover { border-color: var(--c1-4);}
+.controllerContainer input { margin: 0.5em 1em; }
+.controllerLabel { border-bottom: 1px dotted var(--c1-5); margin: 0.5em 0 1em 0;}
+.controllerValue { font-variant-numeric: tabular-nums; }
 #loadingAnimationContainer { text-align: center; }

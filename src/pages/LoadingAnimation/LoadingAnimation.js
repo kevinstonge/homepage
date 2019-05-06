@@ -7,11 +7,12 @@ export class LoadingAnimation extends Component {
     super(props);
     this.state = {
       userAdjustableParameters: {  // "name": [min,max,current]
-        "canvas width":[0,300,100],
+        "canvas width":[0,200,100],
         "number of circles": [1,20,7],
         "track radius":[0,40,20],
-        "circle radius":[1,10,1],
-        "hue":[0,255,0],
+        "circle radius":[1,10,2],
+        "speed":[0,100,50],
+        "hue":[0,360,280],
         "saturation":[0,100,100],
         "luminosity":[0,100,50],
       },
@@ -31,9 +32,7 @@ export class LoadingAnimation extends Component {
       </div>
     )
   }
-  componentWillUpdate() {
-    //clearTimeout(this.state.timer);
-  }
+
   componentWillUnmount() {
     clearTimeout(this.state.timer);
   }

@@ -12,7 +12,7 @@ export class Controlers extends Component {
   render() {
     return (
       <div id="loadingAnimationControllers">
-        {Object.keys(this.props.state.userAdjustableParameters).map(e=><div key={e}className="controllerContainer"><p>{e}</p><p>{this.props.state.userAdjustableParameters[e][2]}</p><input name={e} type="range" min={this.props.state.userAdjustableParameters[e][0]} max={this.props.state.userAdjustableParameters[e][1]} value={this.props.state.userAdjustableParameters[e][2]} onChange={this.handler}></input></div>)}
+        {Object.keys(this.props.state.userAdjustableParameters).map(e=><div key={e}className="controllerContainer"><p className="controllerLabel">{e}</p><p className="controllerValue">{this.props.state.userAdjustableParameters[e][2]}</p><input name={e} type="range" min={this.props.state.userAdjustableParameters[e][0]} max={this.props.state.userAdjustableParameters[e][1]} value={this.props.state.userAdjustableParameters[e][2]} onChange={this.handler}></input></div>)}
       </div>
     )
   }

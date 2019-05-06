@@ -12,17 +12,18 @@ export class Animation extends Component {
   drawLoading = (circles,ctx) => {
     let vars = this.props.state;
     ctx.clearRect(0,0,ctx.canvas.width,ctx.canvas.height);
-    let speedTheta = this.thetaReset(vars.speedTheta - 0.05);
-    let colorTheta = this.thetaReset(vars.colorTheta - 0.05);
-    let radiusTheta = this.thetaReset(vars.radiusTheta - 0.05);
+    vars.speedTheta = this.thetaReset(vars.speedTheta - 0.05);
+    vars.colorTheta = this.thetaReset(vars.colorTheta - 0.05);
+    vars.radiusTheta = this.thetaReset(vars.radiusTheta - 0.05);
     let fps = vars.fps;
     circles.forEach((c,i,a)=>{
       let x = vars.userAdjustableParameters["track radius"][2] * Math.cos(c);
       let y = vars.userAdjustableParameters["track radius"][2] * Math.sin(c);
-      let r = vars.userAdjustableParameters["circle radius"][2] * this.deltaTheta(c,radiusTheta);
-      let deltaS = this.deltaTheta(c,speedTheta);
-      let deltaC = this.deltaTheta(c,colorTheta);
-      a[i] = this.thetaReset(c + (Math.PI+deltaS)/fps/2 + (Math.PI*deltaS)/fps/2);
+      let r = 1 + vars.userAdjustableParameters["circle radius"][2] * this.deltaTheta(c,vars.radiusTheta);
+      let deltaS = this.deltaTheta(c,vars.speedTheta);
+      let deltaC = this.deltaTheta(c,vars.colorTheta);
+      let speed = vars.userAdjustableParameters["speed"][2]/33;
+      a[i] = this.thetaReset(c + (speed + deltaS*speed)/fps);
       let fill = `hsla(${vars.userAdjustableParameters["hue"][2]},${vars.userAdjustableParameters["saturation"][2]}%,${vars.userAdjustableParameters["luminosity"][2]}%,${deltaC/Math.PI})`;
       let stroke = "#ffffff";
       this.drawCircle(ctx,x,y,r,stroke,fill);
