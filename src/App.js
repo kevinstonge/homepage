@@ -5,6 +5,7 @@ import Header from './layout/Header';
 import NavBar from './layout/NavBar';
 import Content from './layout/Content';
 import Ads from './layout/Ads';
+import LoadingAnimation from './pages/LoadingAnimation/LoadingAnimation';
 
 class App extends React.Component {  
   constructor(props) {  
@@ -30,7 +31,7 @@ class App extends React.Component {
         <div id="main-grid">
         <NavBar pages={this.state.pages} setPage={this.setPage}/>
         <Content page={this.state.currentPage}>
-        <Suspense fallback={<p> ... loading ... </p>}>
+        <Suspense fallback={<LoadingAnimation controllers="false"/>}>
           <Route exact path="/" component={this.state.pages["home"]} />
           <Route exact path={"/"+this.state.currentPage} component={this.state.pages[this.state.currentPage]} />
           </Suspense>

@@ -27,7 +27,7 @@ export class LoadingAnimation extends Component {
   render() {
     return (
       <div>
-        <Controlers updateState={this.updateState} state={this.state}/>
+        { (this.props.controllers !== "false") ? <Controlers updateState={this.updateState} state={this.state}/> : null }
         <Animation state={this.state}/>
       </div>
     )
