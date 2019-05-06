@@ -27,7 +27,7 @@ export default class SNS extends Component {
       //setTimeout has some precision problems; look into alternatives
       this.timer1 = setTimeout(function() { 
         SNSfunctions.syncOutput(SNSvars,SNSstate,SNSfunctions);
-      },duration+5);
+      },duration);
       SNSvars.textArray.shift();
       SNSvars.audioArray.shift();
     }
