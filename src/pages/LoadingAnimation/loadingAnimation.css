@@ -1,0 +1,4 @@
+#loadingAnimationControllers { text-align: center; }
+.controllerContainer { width: fit-content; display: inline-block; text-align: center; padding: 0 1em; border: 1px outset gray; margin: 1em; }
+.controllerContainer p { border-bottom: 1px dotted grey; margin: 0 0 1em 0;}
+#loadingAnimationContainer { text-align: center; }

@@ -7,31 +7,35 @@ export class LoadingAnimation extends Component {
     super(props);
     this.state = {
       userAdjustableParameters: {  // "name": [min,max,current]
-        "canvas width":[60,300,200],
-        "number of circles": [1,20,3],
+        "canvas width":[0,300,100],
+        "number of circles": [1,20,7],
         "track radius":[0,40,20],
-        "circle radius":[1,10,2],
+        "circle radius":[1,10,1],
         "hue":[0,255,0],
-        "saturation":[0,255,0],
-        "luminosity":[0,255,255],
+        "saturation":[0,100,100],
+        "luminosity":[0,100,50],
       },
       speedTheta: 0,
       radiusTheta:Math.PI/3,
       colorTheta:Math.PI,
-      fps:60
+      fps:60,
+      timer:undefined,
     };
   }
   updateState = (newState) => { this.setState(newState) };
   render() {
     return (
       <div>
-        <Animation state={this.state}/>
         <Controlers updateState={this.updateState} state={this.state}/>
+        <Animation state={this.state}/>
       </div>
     )
   }
-  componentDidMount() {
-
+  componentWillUpdate() {
+    //clearTimeout(this.state.timer);
+  }
+  componentWillUnmount() {
+    clearTimeout(this.state.timer);
   }
 }
 

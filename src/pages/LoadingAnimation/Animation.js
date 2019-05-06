@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-
+import './loadingAnimation.css';
 export class Animation extends Component {
   initialize = () => {
+    clearTimeout(this.props.state.timer);
     //set up circle array, each circle has an initial theta (angle relative to center of track)
     let circles = new Array(this.props.state.userAdjustableParameters["number of circles"][2]).fill('').map((e,i,a)=>{return i*2*Math.PI/a.length});
     let ctx=document.querySelector("#loadingCanvas").getContext("2d");
-    this.canvasWidth = 100;
+    this.canvasWidth = this.props.state.userAdjustableParameters["canvas width"][2];
     this.drawLoading(circles,ctx);
   };
   drawLoading = (circles,ctx) => {
@@ -18,17 +19,15 @@ export class Animation extends Component {
     circles.forEach((c,i,a)=>{
       let x = vars.userAdjustableParameters["track radius"][2] * Math.cos(c);
       let y = vars.userAdjustableParameters["track radius"][2] * Math.sin(c);
-      let r = vars.userAdjustableParameters["circle radius"][2] + vars.userAdjustableParameters["track radius"][2] * this.deltaTheta(c,radiusTheta);
+      let r = vars.userAdjustableParameters["circle radius"][2] * this.deltaTheta(c,radiusTheta);
       let deltaS = this.deltaTheta(c,speedTheta);
-      a[i] = this.thetaReset(c + Math.PI/(fps*10) + Math.PI*deltaS/fps);
       let deltaC = this.deltaTheta(c,colorTheta);
-      let fill = `hsla(360,100%,100%,${deltaC/Math.PI})`;
+      a[i] = this.thetaReset(c + (Math.PI+deltaS)/fps/2 + (Math.PI*deltaS)/fps/2);
+      let fill = `hsla(${vars.userAdjustableParameters["hue"][2]},${vars.userAdjustableParameters["saturation"][2]}%,${vars.userAdjustableParameters["luminosity"][2]}%,${deltaC/Math.PI})`;
       let stroke = "#ffffff";
       this.drawCircle(ctx,x,y,r,stroke,fill);
-      return 0;
     });
-    setTimeout(this.drawLoading,1000/fps,circles,ctx);
-    //setTimeout(this.drawLoading,1000,circles,ctx);
+    this.props.state.timer = setTimeout(this.drawLoading,1000/fps,circles,ctx);
   };
 
   drawCircle(ctx,x,y,r,s,f) {
@@ -41,7 +40,7 @@ export class Animation extends Component {
     ctx.lineWidth=2;
     ctx.arc(x,y,r,0,2*Math.PI);
     ctx.fill();
-    ctx.stroke();   
+    //ctx.stroke();   
   };
 
   deltaTheta = (a,b) => {
@@ -58,7 +57,7 @@ thetaReset = (theta) => {
   render() {
     let width = this.props.state.userAdjustableParameters["canvas width"][2];
     return (
-      <div>
+      <div id="loadingAnimationContainer">
         <canvas id="loadingCanvas" width={width} height={width}>animation</canvas>
       </div>
     )

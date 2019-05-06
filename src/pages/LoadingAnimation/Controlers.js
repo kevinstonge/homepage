@@ -5,20 +5,16 @@ export class Controlers extends Component {
   handler = (e) => { 
     e.persist();
     let newState = this.props.state;
-    newState.userAdjustableParameters[e.target.name][2] = e.target.value;
+    newState.userAdjustableParameters[e.target.name][2] = parseInt(e.target.value);
     this.props.updateState(newState); 
   }
+
   render() {
     return (
-      <div>
-        <input name="canvas width" type="range" min="20" max="200" onInput={this.handler}></input>
+      <div id="loadingAnimationControllers">
+        {Object.keys(this.props.state.userAdjustableParameters).map(e=><div key={e}className="controllerContainer"><p>{e}</p><p>{this.props.state.userAdjustableParameters[e][2]}</p><input name={e} type="range" min={this.props.state.userAdjustableParameters[e][0]} max={this.props.state.userAdjustableParameters[e][1]} value={this.props.state.userAdjustableParameters[e][2]} onChange={this.handler}></input></div>)}
       </div>
     )
-  }
-  componentDidMount() {
-    // let newState = this.props.state;
-    // newState.userAdjustableParameters["canvas width"][2] = 100;
-    // this.handler(newState);
   }
 }
 
