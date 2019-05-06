@@ -56,11 +56,9 @@ export default class SNS extends Component {
   };
   render() {
     return (
-      <div>
         <div id="SNScontainer">
           <SNSsvg SNSButtonPress={this.SNSButtonPress} SNSstate={this.state}/>
         </div>
-      </div>
     )
   }
   componentDidMount() {
