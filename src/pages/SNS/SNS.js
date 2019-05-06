@@ -34,10 +34,25 @@ export default class SNS extends Component {
     else { SNSvars.wait = false; this.audioElement.pause() };
   };
 
-  SNSButtonPress = (e) => { 
+  SNSButtonPress = (e) => {
     this.functions.SNSdisplay = this.SNSdisplay;
     this.functions.syncOutput = this.syncOutput;
     this.functions.buttonPress(e,this.vars,this.state,this.functions); 
+  };
+  keydownListener = (e) => {
+    let button = "";
+    if (this.vars["wait"] === true) { return; }
+    button = e.which || 0;
+    if (button === 13) { button = 40; e.preventDefault(); } // enter
+
+    if (button === 8) { button = 39;  e.preventDefault(); } //backspace
+    if (button === 222) { button = 37; } //'
+    let keyString = String.fromCharCode(button).toLowerCase();
+    if (/^[a-z]+$/.test(keyString) && 65 <= button && button <= 90) { 
+      button = keyString; e.preventDefault();
+    } 
+    if (button !== "") { this.SNSButtonPress(button); }
+    else { return };
   };
   render() {
     return (
@@ -50,24 +65,11 @@ export default class SNS extends Component {
   }
   componentDidMount() {
     this.vars = this.functions.resetVariables(this.vars);
-    window.addEventListener("keydown", (e) => { 
-      let button = "";
-      if (this.vars["wait"] === true) { return; }
-      button = e.which || 0;
-      if (button === 13) { button = 40; e.preventDefault(); } // enter
-
-      if (button === 8) { button = 39;  e.preventDefault(); } //backspace
-      if (button === 222) { button = 37; } //'
-      let keyString = String.fromCharCode(button).toLowerCase();
-      if (/^[a-z]+$/.test(keyString) && 65 <= button && button <= 90) { 
-        button = keyString;
-      } 
-      if (button !== "") { this.SNSButtonPress(button); }
-      else { return };
-    });
+    window.addEventListener("keydown",this.keydownListener);
   }
   componentWillUnmount() {
     this.audioElement.pause();
     clearTimeout(this.timer1);
+    window.removeEventListener("keydown",this.keydownListener);
   }
 }
