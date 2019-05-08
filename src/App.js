@@ -11,11 +11,15 @@ class App extends React.Component {
   constructor(props) {  
     super(props);
     this.state = {
-      pages: {
+      pages: {  //React.lazy for code splitting
         "home": React.lazy(() => import('./pages/Home')),
         "loading animation": React.lazy(()=>import('./pages/LoadingAnimation/LoadingAnimation')),
         "weather": React.lazy(()=>import('./pages/Weather')),
         "speak & spell": React.lazy(()=>import('./pages/SNS/SNS')),
+        //sns lcd
+        //rpn calc
+        //age calc
+        //perlin or other noise cloud generator for backgrounds?
       },
       currentPage: (decodeURIComponent(window.location.pathname.substring(1)) || "home"),
     };
