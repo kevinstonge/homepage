@@ -21,14 +21,13 @@ class App extends React.Component {
         //age calc
         //perlin or other noise cloud generator for backgrounds?
       },
-      currentPage: (decodeURIComponent(window.location.pathname.substring(1).replace("homepage/build/","")) || "home"),
+      currentPage: (decodeURIComponent(window.location.hash.substring(2)) || "home"),
     };
   }
   setPage = (page) => {
     this.setState({currentPage:page});
   }
   render () {
-    console.log(window.location.pathname);
     return(
       <HashRouter basename='/'>
       <div className="App">
