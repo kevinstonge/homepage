@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Route, HashRouter } from 'react-router-dom';
+import { Route, HashRouter } from 'react-router-dom';
 import './App.css';
 import Header from './layout/Header';
 import NavBar from './layout/NavBar';
@@ -28,6 +28,7 @@ class App extends React.Component {
     this.setState({currentPage:page});
   }
   render () {
+    console.log(window.location.pathname);
     return(
       <HashRouter basename='/'>
       <div className="App">
