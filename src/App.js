@@ -21,7 +21,7 @@ class App extends React.Component {
         //age calc
         //perlin or other noise cloud generator for backgrounds?
       },
-      currentPage: (decodeURIComponent(window.location.pathname.substring(1).replace("/homepage/build/","")) || "home"),
+      currentPage: (decodeURIComponent(window.location.pathname.substring(1).replace("homepage/build/","")) || "home"),
     };
   }
   setPage = (page) => {
