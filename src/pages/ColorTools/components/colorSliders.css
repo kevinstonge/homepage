@@ -1,0 +1,47 @@
+.colorInputBox { text-align: center; border: 1px solid #777; padding: 0.25em 0.5em; margin: 0.5em 0.1em; border-radius: 0.25em; }
+.colorInputBox p { margin: 0.1em; padding: 0.1em; border-bottom: 1px dashed #777; }
+.colorInputRow input[type=range] {
+    margin-left: 0.5em;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #353535; 
+    outline: none; 
+    flex: 1;
+    border-radius: 0.5em; 
+}
+.colorInputRow input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default */
+    appearance: none;
+    width: 1em; 
+    height: 1em; 
+    background: #777; 
+    cursor: pointer; 
+    border-radius: 0.5em;
+    border: 1px solid #aaa;
+  }
+.colorInputRow input[type=range]:hover {
+    background: #454545;
+ }
+ .colorInputRow input[type=range]::-webkit-slider-thumb:hover {
+     border: 1px solid #fff;
+ }
+.colorInputRow input[type=text] {
+    text-align: right;
+    background-color: #252525;
+    color: white;
+    border: 1px solid #777;
+    margin-left: 0.25em;
+}
+.colorInputRow label {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    
+}
+.colorInputRow * { height: 100%; }
+.colorInputRow {
+    padding: 0.5em 0;
+    width: 100%;
+}

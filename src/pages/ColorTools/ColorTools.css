@@ -1,0 +1,29 @@
+#colorToolsFlexContainer {
+    /* background-color: #252525;  */
+    color: #fdfdfd;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    overflow-y: auto;
+}
+#colorPalette {
+    padding: 0.5em;
+}
+#colorPickers {
+    padding: 0.5em;
+}
+
+#canvasContainer {
+    width: max-content;
+    margin: auto;
+}
+
+@media only screen and (max-width: 700px) {
+    #colorToolsFlexContainer {
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+}

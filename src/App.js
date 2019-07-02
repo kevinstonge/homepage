@@ -4,7 +4,7 @@ import './App.css';
 import Header from './layout/Header';
 import NavBar from './layout/NavBar';
 import Content from './layout/Content';
-import Ads from './layout/Ads';
+import RightColumn from './layout/RightColumn';
 import LoadingAnimation from './pages/LoadingAnimation/LoadingAnimation';
 
 class App extends React.Component {  
@@ -13,8 +13,9 @@ class App extends React.Component {
     this.state = {
       pages: {  //React.lazy for code splitting
         "home": React.lazy(() => import('./pages/Home')),
+        "color tools":React.lazy(()=>import('./pages/ColorTools/ColorTools')),
         "loading animation": React.lazy(()=>import('./pages/LoadingAnimation/LoadingAnimation')),
-        "weather": React.lazy(()=>import('./pages/Weather')),
+        //"weather": React.lazy(()=>import('./pages/Weather')),
         "speak & spell": React.lazy(()=>import('./pages/SNS/SNS')),
         //sns lcd
         //rpn calc
@@ -40,7 +41,7 @@ class App extends React.Component {
           <Route exact path={"/"+this.state.currentPage} component={this.state.pages[this.state.currentPage]} />
           </Suspense>
         </Content>
-        <Ads />
+        <RightColumn />
         </div>
       </div>
       </HashRouter>
