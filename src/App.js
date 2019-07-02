@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, HashRouter } from 'react-router-dom';
 import './App.css';
 import Header from './layout/Header';
 import NavBar from './layout/NavBar';
@@ -29,7 +29,7 @@ class App extends React.Component {
   }
   render () {
     return(
-      <Router>
+      <HashRouter basename='/'>
       <div className="App">
         <Header setPage={this.setPage}/>
         <div id="main-grid">
@@ -43,7 +43,7 @@ class App extends React.Component {
         <Ads />
         </div>
       </div>
-      </Router>
+      </HashRouter>
     );
   }
 }
