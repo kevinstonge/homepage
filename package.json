@@ -1,7 +1,7 @@
 {
   "name": "homepage",
   "version": "0.1.0",
-  "homepage": "./",
+  "homepage": "https://kevinstonge.github.io/homepage/build",
   "private": true,
   "dependencies": {
     "react": "^16.8.6",
