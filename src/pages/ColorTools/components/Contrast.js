@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {hsl2rgb,hueReset} from '../accessories/colorConversion';
-
+import '../../../accessories/arrayFill';
 
 export default class Contrast extends Component {
     constructor() {

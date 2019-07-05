@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import './loadingAnimation.css';
+import '../../accessories/arrayFill';
 export class Animation extends Component {
   initialize = () => {
     clearTimeout(this.props.state.timer);

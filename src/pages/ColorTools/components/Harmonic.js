@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {hueReset} from '../accessories/colorConversion';
 import * as cookies from '../accessories/cookies';
-
+import '../../../accessories/arrayFill';
 
 export default class Harmonic extends Component {
     constructor(props) {
