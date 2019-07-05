@@ -44,7 +44,7 @@ const SNSfunc = {
         for (let j=1; j<17; j++) {
           let x = 0;
           //if (segments && Object.values(segments).includes(j)) { x = 1; } // works on modern browsers
-          if (segments && Object.keys(segments).map(key => segments[key]).includes(j)) { x = 1; } //for browser compatibility
+          if (segments && Object.keys(segments).map(key => segments[key]).indexOf(j) > -1) { x = 1; } //for browser compatibility
           newState[i][j]={fillOpacity:x};
         }
       }
@@ -138,7 +138,7 @@ const SNSfunc = {
     },
     buttonPress(button,SNSvars,SNSstate,SNSfunctions) {
       if (!/^[a-z]+$/.test(button)) { button = parseInt(button); }
-      if (SNSvars.wait === true && !SNSvars.waitButtons.includes(button)) { return; };
+      if (SNSvars.wait === true && SNSvars.waitButtons.indexOf(button) === -1) { return; };
       if (button === 1) {  //off
         SNSfunctions.clearDisplay(SNSfunctions); SNSvars = SNSfunctions.resetVariables(SNSvars); SNSvars.mode = "off"; 
       };
@@ -273,7 +273,7 @@ const SNSfunc = {
           }
         }
         SNSvars.mysteryWordShard = SNSvars.mysteryWordShard.replace(new RegExp(clueLetter, 'g'), "");
-        SNSvars.displayedText = SNSvars.mysteryWord.split("").map((e, i, a) => SNSvars.mysteryWordShard.includes(a[i]) ? "_" : e).join("");
+        SNSvars.displayedText = SNSvars.mysteryWord.split("").map((e, i, a) => (SNSvars.mysteryWordShard.indexOf(a[i])>-1) ? "_" : e).join("");
         SNSvars.audioArray.push(clueLetter); 
         SNSvars.textArray.push(SNSvars.displayedText); 
         //check for win
