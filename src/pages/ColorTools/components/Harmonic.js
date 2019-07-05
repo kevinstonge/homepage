@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import {hueReset} from '../accessories/colorConversion';
 import * as cookies from '../accessories/cookies';
 import '../../../accessories/arrayFill';
-
 export default class Harmonic extends Component {
     constructor(props) {
         super(props)
@@ -54,6 +53,7 @@ export default class Harmonic extends Component {
     }
 
     render() {
+        let paletteHues = this.settings["Palette Mode"][this.state["Palette Mode"]];
         return (
             <div>
                 <h3>harmonic color palettes</h3>
@@ -106,7 +106,8 @@ export default class Harmonic extends Component {
                     )}
                 </div>
                 <div className="paletteContainer">
-                    {Object.values(this.settings["Palette Mode"][this.state["Palette Mode"]]).map((h,i)=>{
+                    {/* {Object.values(paletteHues).map((h,i)=>{ //modern browsers */}
+                    {Object.keys(paletteHues).map(key => paletteHues[key]).map((h,i)=> {
                         let hue = hueReset(Number(this.props.globalState.baseColor[0])+h).toFixed(2);
                         return (
                         <div key={`h${i}`} className="paletteBlock">

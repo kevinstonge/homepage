@@ -43,7 +43,8 @@ const SNSfunc = {
         let segments = SNSvars.outputCodes[outputText.substr(i-1,1)];
         for (let j=1; j<17; j++) {
           let x = 0;
-          if (segments && Object.values(segments).includes(j)) { x = 1; }
+          //if (segments && Object.values(segments).includes(j)) { x = 1; } // works on modern browsers
+          if (segments && Object.keys(segments).map(key => segments[key]).includes(j)) { x = 1; } //for browser compatibility
           newState[i][j]={fillOpacity:x};
         }
       }
