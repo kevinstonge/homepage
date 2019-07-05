@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import Harmonic from './Harmonic';
 import Shading from './Shading';
-// import Contrast from './Contrast';
 import copyToClipboard from '../accessories/copyToClipboard';
 import {hsl2hex, hsl2rgb} from '../accessories/colorConversion';
 import * as cookies from '../accessories/cookies';

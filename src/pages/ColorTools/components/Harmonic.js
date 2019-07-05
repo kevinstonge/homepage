@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {hueReset} from '../accessories/colorConversion';
 import * as cookies from '../accessories/cookies';
-import '../../../accessories/arrayFill';
 export default class Harmonic extends Component {
     constructor(props) {
         super(props)
@@ -112,12 +111,14 @@ export default class Harmonic extends Component {
                         return (
                         <div key={`h${i}`} className="paletteBlock">
                         
-                        {Array(this.state["Saturation Steps"]).fill("0").map((s,j)=>{
+                        {/* {Array(this.state["Saturation Steps"]).fill("0").map((s,j)=>{ //modern browsers */}
+                        {Array.from({length:this.state["Saturation Steps"]},()=>"0").map((s,j)=>{ 
                             let saturation = Number(100*(j+1)/this.state["Saturation Steps"]).toFixed(2);
                             return (
                             <div key={`h${i}s${j}`} className="paletteRow">
                                 
-                                {Array(this.state["Luminosity Steps"]).fill("0").map((l,k)=> {
+                                {/* {Array(this.state["Luminosity Steps"]).fill("0").map((l,k)=> { //modern browsers */}
+                                {Array.from({length:this.state["Luminosity Steps"]},()=>"0").map((l,k)=> {
                                     let luminosity = Number(100*(k+1)/(1+this.state["Luminosity Steps"])).toFixed(2);
                                     let clipBoardString = this.props.copiedFormats[this.props.paletteState["Copied format"]]([hue,saturation,luminosity]);
                                     return(<div 

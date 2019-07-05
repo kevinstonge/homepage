@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import './loadingAnimation.css';
-import '../../accessories/arrayFill';
 export class Animation extends Component {
   initialize = () => {
     clearTimeout(this.props.state.timer);
     //set up circle array, each circle has an initial theta (angle relative to center of track)
-    let circles = new Array(this.props.state.userAdjustableParameters["number of circles"][2]).fill('').map((e,i,a)=>{return i*2*Math.PI/a.length});
+    let circles = Array.from({length:this.props.state.userAdjustableParameters["number of circles"][2]},()=>'').map((e,i,a)=>i*2*Math.PI/a.length);
     let ctx=document.querySelector("#loadingCanvas").getContext("2d");
     this.canvasWidth = this.props.state.userAdjustableParameters["canvas width"][2];
     this.drawLoading(circles,ctx);

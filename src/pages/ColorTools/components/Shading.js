@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import {hueReset} from '../accessories/colorConversion';
 import * as cookies from '../accessories/cookies';
-import '../../../accessories/arrayFill';
-
 
 export default class Shading extends Component {
     constructor(props) {
@@ -58,8 +56,7 @@ export default class Shading extends Component {
     }
     render() {
         let paletteSize = this.state["palette size"][2];
-        let palette = new Array(paletteSize);
-        palette = palette.fill("0").map((e,i,a)=>this.calculateColor(i));
+        let palette = Array.from({length:paletteSize},()=>"0").map((e,i,a)=>this.calculateColor(i));
         // let shadingGradient = 
         //     `linear-gradient(to right, 
         //         ${palette.map(e=>`hsl(${e[0]},${e[1]}%,${e[2]}%)`)}
